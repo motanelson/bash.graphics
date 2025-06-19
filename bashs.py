@@ -89,8 +89,23 @@ def render_gif():
             screenshot = pyautogui.screenshot()
             frames.append(screenshot)
         if face[0].strip().lower()=="var":
-            vars=u(str(face[1:]))
-        
+            vars=(str(face[1:]))
+        if face[0].strip().lower()=="print":
+            font = pygame.font.Font(None, int(36))
+            text_surface = font.render(vars, True, colors)
+            xy=(int(face[1].strip()),int(face[2].strip()))
+            screen.blit(text_surface, xy)
+        if face[0].strip().lower()=="sleep":
+            pygame.display.flip()
+            # Captura da imagem
+            screenshot = pyautogui.screenshot()
+            frames.append(screenshot)
+            xy=int(face[1].strip())
+            time.sleep(xy)
+            pygame.display.flip()
+            # Captura da imagem
+            screenshot = pyautogui.screenshot()
+            frames.append(screenshot)
         for evento in pygame.event.get():
             if evento.type == QUIT:
                 running = False
@@ -104,8 +119,11 @@ def render_gif():
 
 
         
-        
+    pygame.display.flip()    
     # Captura da imagem
+    screenshot = pyautogui.screenshot()
+    frames.append(screenshot)
+    # Save frames as a GIF
     screenshot = pyautogui.screenshot()
     frames.append(screenshot)
     # Save frames as a GIF
