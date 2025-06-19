@@ -84,8 +84,20 @@ def render_gif():
         clock.tick(60)
         if face[0].strip().lower()=="xy":
             xy=(int(face[1].strip()),int(face[2].strip()))
+        if face[0].strip().lower()=="arc":
+            pygame.draw.arc(screen,colors,pygame.Rect(xy[0],xy[1],int(face[1].strip()),int(face[2].strip())),int(face[3].strip())/114,int(face[4].strip())/114)
+        if face[0].strip().lower()=="ellipse":
+            pygame.draw.ellipse(screen,colors,pygame.Rect(xy[0],xy[1],int(face[1].strip()),int(face[2].strip())))
         if face[0].strip().lower()=="ret":
             pygame.draw.rect(screen,colors,pygame.Rect(xy[0],xy[1],int(face[1].strip()),int(face[2].strip())))
+        if face[0].strip().lower()=="line":
+            pygame.draw.line(screen,colors,xy,(int(face[1].strip()),int(face[2].strip())))
+        if face[0].strip().lower()=="poly":
+            p=[]
+            for n in range((len(face)-1)//2):
+                p=p+[(int(face[n*2+1])+xy[0],int(face[n*2+2])+xy[1])]
+                
+            pygame.draw.polygon(screen,colors,p)
         if face[0].strip().lower()=="clear":
             screen.fill(VGA_COLORS [int(face[1].strip())])
         if face[0].strip().lower()=="circle":

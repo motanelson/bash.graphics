@@ -3,9 +3,19 @@ clear,14
 color,0
 xy,10,10
 ret,50,50
+xy,20,150
+line,50,50
+xy,100,100
+poly,50,50,100,100,0,100
 xy,100,100
 circle,40
+xy,10,200
+ellipse,150,50
+color,15
+xy,10,300
+arc,150,50,0,90
 foto,1
+color,0
 var,hello world , hi there
 xy,300,100
 print,36
