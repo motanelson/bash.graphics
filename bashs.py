@@ -40,6 +40,14 @@ def ler_faces_csv(caminho):
            
 def render_gif():
     global output_file
+    # Cores VGA (0x0 - 0xF)
+    VGA_COLORS = [
+        (0, 0, 0), (0, 0, 170), (0, 170, 0), (0, 170, 170),
+        (170, 0, 0), (170, 0, 170), (170, 85, 0), (170, 170, 170),
+        (85, 85, 85), (85, 85, 255), (85, 255, 85), (85, 255, 255),
+        (255, 85, 85), (255, 85, 255), (255, 255, 85), (255, 255, 255)
+]
+
     caminho = escolher_csv()
     if not caminho or not os.path.exists(caminho):
         print("Ficheiro não encontrado.")
@@ -69,39 +77,47 @@ def render_gif():
     screen.fill((255, 255, 0))  # RGB color for black
     colors=(0,0,0)
     vars=""
+    xy=(0,0)
     for face in faces:
         
         
-        
-        if face[0].strip().lower()=="ret":
-            pygame.draw.rect(screen,colors,pygame.Rect(int(face[1].strip()),int(face[2].strip()),int(face[3].strip()),int(face[4].strip())))
-        if face[0].strip().lower()=="clear":
-            screen.fill((int(face[1].strip()),int(face[2].strip()),int(face[3].strip())))
-        if face[0].strip().lower()=="circle":
-            pygame.draw.circle(screen,colors,(int(face[1].strip()),int(face[2].strip())),float(face[3].strip()))
-        if face[0].strip().lower()=="color":
-            colors=((int(face[1].strip()),int(face[2].strip()),int(face[3].strip())))
         clock.tick(60)
+        if face[0].strip().lower()=="xy":
+            xy=(int(face[1].strip()),int(face[2].strip()))
+        if face[0].strip().lower()=="ret":
+            pygame.draw.rect(screen,colors,pygame.Rect(xy[0],xy[1],int(face[1].strip()),int(face[2].strip())))
+        if face[0].strip().lower()=="clear":
+            screen.fill(VGA_COLORS [int(face[1].strip())])
+        if face[0].strip().lower()=="circle":
+            pygame.draw.circle(screen,colors,(xy[0],xy[1]),float(face[1].strip()))
+        if face[0].strip().lower()=="color":
+            colors=VGA_COLORS [int(face[1].strip())]
+        
         if face[0].strip().lower()=="foto":
             pygame.display.flip()
+            for a in range(int(face[1].strip())):
             
-            # Captura da imagem
-            screenshot = pyautogui.screenshot()
-            frames.append(screenshot)
+            
+                # Captura da imagem
+                screenshot = pyautogui.screenshot()
+                frames.append(screenshot)
         if face[0].strip().lower()=="var":
-            vars=(str(face[1:]))
+            
+            vars=list(face[1:])
         if face[0].strip().lower()=="print":
-            font = pygame.font.Font(None, int(36))
-            text_surface = font.render(vars, True, colors)
-            xy=(int(face[1].strip()),int(face[2].strip()))
-            screen.blit(text_surface, xy)
+            for a in vars:
+                 font = pygame.font.Font(None, int(face[1].strip()))
+                 text_surface = font.render(u""+a, True, colors)
+                 xy=(xy[0],xy[1]+int(face[1].strip())+6)
+                 screen.blit(text_surface, xy)
         if face[0].strip().lower()=="sleep":
             pygame.display.flip()
-            # Captura da imagem
-            screenshot = pyautogui.screenshot()
-            frames.append(screenshot)
-            xy=int(face[1].strip())
-            time.sleep(xy)
+            for a in range(int(face[1].strip())):
+                # Captura da imagem
+                screenshot = pyautogui.screenshot()
+                frames.append(screenshot)
+           
+            
             pygame.display.flip()
             # Captura da imagem
             screenshot = pyautogui.screenshot()

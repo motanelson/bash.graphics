@@ -1,8 +1,13 @@
-clear,255,255,0
-ret,10,10,50,50
-circle,100,100,40
-foto,
-var,hello world
-print,300,100
-foto,
+comment line
+clear,14
+color,0
+xy,10,10
+ret,50,50
+xy,100,100
+circle,40
+foto,1
+var,hello world , hi there
+xy,300,100
+print,36
+foto,1
 sleep,3
